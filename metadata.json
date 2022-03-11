@@ -1,0 +1,16 @@
+{
+  "name": "halyard-disks",
+  "version": "0.0.1",
+  "author": "Les Aker",
+  "license": "MIT",
+  "summary": "Configure devices and mounts",
+  "source": "https://github.com/halyard/puppet-disks",
+  "project_page": "https://github.com/halyard/puppet-disks",
+  "issues_url": "https://github.com/halyard/puppet-disks/issues",
+  "dependencies": [
+
+  ],
+  "operatingsystem_support": [
+
+  ]
+}
