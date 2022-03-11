@@ -1,6 +1,6 @@
 {
   "name": "halyard-disks",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Les Aker",
   "license": "MIT",
   "summary": "Configure devices and mounts",
@@ -8,7 +8,10 @@
   "project_page": "https://github.com/halyard/puppet-disks",
   "issues_url": "https://github.com/halyard/puppet-disks/issues",
   "dependencies": [
-      { "name":"puppetlabs/mount_providers","version_requirement":">= 2.0.1" }
+    {
+      "name": "puppetlabs/mount_providers",
+      "version_requirement": ">= 2.0.1"
+    }
   ],
   "operatingsystem_support": [
 
