@@ -1,17 +1,17 @@
 ##
 # Definitions for systemd
 class disks::systemd () {
-  mount { '/':
+  mounttab { '/':
     ensure  => present,
     device  => $facts['mountpoints']['/']['device'],
     atboot  => true,
     fstype  => $facts['mountpoints']['/']['filesystem'],
-    options => 'rw,relatime',
+    options => ['rw', 'relatime'],
     dump    => '0',
     pass    => '1',
   }
 
-  resources { 'mount':
+  resources { 'mounttab':
     purge => true,
   }
 }
