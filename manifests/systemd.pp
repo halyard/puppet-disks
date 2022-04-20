@@ -12,7 +12,7 @@ class disks::systemd () {
   }
 
   if $facts['partitions']['/dev/mmcblk0p1'] {
-    mounttab { '/':
+    mounttab { '/boot':
       ensure  => present,
       device  => '/dev/mmcblk0p1',
       atboot  => true,
