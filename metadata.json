@@ -9,8 +9,8 @@
   "issues_url": "https://github.com/halyard/puppet-disks/issues",
   "dependencies": [
     {
-      "name": "puppetlabs/mount_core",
-      "version_requirement": ">= 1.1.0"
+      "name": "puppetlabs/mount_providers",
+      "version_requirement": ">= 2.0.1"
     }
   ],
   "operatingsystem_support": [
