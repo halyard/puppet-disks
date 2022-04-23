@@ -1,6 +1,8 @@
 # @summary Configure devices and mounts
 #
+# @param lvs devices to manage
 class disks (
+  Hash[String, Hash] $lvs = [],
 ) {
   case $facts['os']['family'] {
     'Archlinux': { include disks::systemd }
