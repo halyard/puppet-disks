@@ -23,6 +23,32 @@ class disks::systemd () {
     }
   }
 
+  $disk::lvs.each | String $name, Hash $options | {
+    exec { "/usr/bin/lvcreate -L '${options['size']}' -n '${name}' '${options['vg']}'":
+      creates => "/dev/${options['vg']}/${name}",
+    }
+
+    -> exec { "/usr/bin/mkfs -t '${options['fstype']}' '/dev/${options['vg']}/${name}'":
+      onlyif => "/usr/bin/file -sLb '/dev/${options['vg']}/${name}' | grep '^data$'",
+    }
+
+    if $options['mount'] {
+      file { $options['mount']:
+        ensure => directory,
+      }
+
+      -> mounttab { $options['mount']:
+        ensure  => present,
+        device  => "/dev/${options['vg']}/${name}",
+        atboot  => true,
+        fstype  => $options['fstype'],
+        options => $options['fsoptions'],
+        dump    => '0',
+        pass    => '2',
+      }
+    }
+  }
+
   resources { 'mounttab':
     purge => true,
   }
