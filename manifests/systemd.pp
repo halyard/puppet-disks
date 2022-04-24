@@ -22,8 +22,8 @@ class disks::systemd () {
     }
   }
 
-  $disk::lvs.each | String $name, Hash $options | {
-    disk::lv { $name:
+  $disks::lvs.each | String $name, Hash $options | {
+    disks::lv { $name:
       * => $options,
     }
   }
