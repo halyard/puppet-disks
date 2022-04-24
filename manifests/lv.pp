@@ -10,7 +10,7 @@ define disks::lv (
   String $size,
   String $vg,
   String $fstype = 'ext4',
-  String $fsoptions = 'rw,relatime',
+  Array[String] $fsoptions = ['rw', 'relatime'],
   String $mount = undef,
   String $lvname = $title,
 ) {
