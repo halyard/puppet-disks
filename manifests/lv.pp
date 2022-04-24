@@ -14,7 +14,6 @@ define disks::lv (
   Optional[String] $mount = undef,
   String $lvname = $title,
 ) {
-
   $lv_path = "/dev/${vg}/${lvname}"
 
   exec { "Create LV ${lv_path}":
