@@ -14,21 +14,26 @@ define disks::lv (
   Optional[String] $mount = undef,
   String $lvname = $title,
 ) {
-  exec { "/usr/bin/lvcreate -y -L '${size}' -n '${lvname}' '${vg}'":
-    creates => "/dev/${vg}/${lvname}",
+
+  $lv_path = "/dev/${vg}/${lvname}"
+
+  exec { "Create LV ${lv_path}":
+    command => "/usr/bin/lvcreate -y -L '${size}' -n '${lvname}' '${vg}'":
+    creates => $lv_path,
   }
 
   if $fstype {
-    exec { "/usr/bin/mkfs -t '${fstype}' '/dev/${vg}/${lvname}'":
-      onlyif  => "/usr/bin/file -sLb '/dev/${vg}/${lvname}' | grep '^data$'",
-      require => Exec["/usr/bin/lvcreate -L '${size}' -n '${lvname}' '${vg}'"],
+    exec { "Create FS on LV ${lv_path}":
+      command => "/usr/bin/mkfs -t '${fstype}' '${lv_path}'":
+      onlyif  => "/usr/bin/file -sLb '${lv_path}' | grep '^data$'",
+      require => Exec["Create LV ${lv_path}"],
     }
   }
 
   if $mount {
     mount { $mount:
       ensure  => mounted,
-      device  => "/dev/${vg}/${lvname}",
+      device  => $lv_path,
       atboot  => true,
       fstype  => $fstype,
       options => $fsoptions,
