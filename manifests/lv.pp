@@ -23,11 +23,7 @@ define disks::lv (
   }
 
   if $mount {
-    file { $mount:
-      ensure => directory,
-    }
-
-    -> mounttab { $mount:
+    mounttab { $mount:
       ensure  => present,
       device  => "/dev/${vg}/${lvname}",
       atboot  => true,
@@ -37,6 +33,6 @@ define disks::lv (
       pass    => '2',
     }
 
-    -> mountpoint { $mount: }
+    mountpoint { $mount: }
   }
 }
