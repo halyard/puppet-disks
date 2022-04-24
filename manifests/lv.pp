@@ -9,8 +9,8 @@
 define disks::lv (
   String $size,
   String $vg,
-  Optional[String] $fstype = 'ext4',
-  Optional[String] $fsoptions = 'rw,relatime',
+  Optional[String] $fstype = undef,
+  Optional[String] $fsoptions = undef,
   Optional[String] $mount = undef,
   String $lvname = $title,
 ) {
