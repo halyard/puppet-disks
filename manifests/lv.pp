@@ -9,17 +9,20 @@
 define disks::lv (
   String $size,
   String $vg,
-  String $fstype = 'ext4',
-  String $fsoptions = 'rw,relatime',
-  String $mount = undef,
+  Optional[String] $fstype = 'ext4',
+  Optional[String] $fsoptions = 'rw,relatime',
+  Optional[String] $mount = undef,
   String $lvname = $title,
 ) {
   exec { "/usr/bin/lvcreate -L '${size}' -n '${lvname}' '${vg}'":
     creates => "/dev/${vg}/${lvname}",
   }
 
-  -> exec { "/usr/bin/mkfs -t '${fstype}' '/dev/${vg}/${lvname}'":
-    onlyif => "/usr/bin/file -sLb '/dev/${vg}/${lvname}' | grep '^data$'",
+  if $fstype {
+    exec { "/usr/bin/mkfs -t '${fstype}' '/dev/${vg}/${lvname}'":
+      onlyif  => "/usr/bin/file -sLb '/dev/${vg}/${lvname}' | grep '^data$'",
+      require => Exec["/usr/bin/lvcreate -L '${size}' -n '${lvname}' '${vg}'"],
+    }
   }
 
   if $mount {
