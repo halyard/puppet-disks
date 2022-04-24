@@ -28,7 +28,7 @@ define disks::lv (
     }
 
     -> mounttab { $mount:
-      ensure  => present,
+      ensure  => mounted,
       device  => "/dev/${vg}/${lvname}",
       atboot  => true,
       fstype  => $fstype,
