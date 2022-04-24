@@ -1,18 +1,18 @@
 # @summary Definitions for systemd
 class disks::systemd () {
-  mounttab { '/':
-    ensure  => present,
+  mount { '/':
+    ensure  => mounted,
     device  => $facts['mountpoints']['/']['device'],
     atboot  => true,
     fstype  => $facts['mountpoints']['/']['filesystem'],
-    options => ['rw', 'relatime'],
+    options => 'rw,relatime',
     dump    => '0',
     pass    => '1',
   }
 
   if $facts['partitions']['/dev/mmcblk0p1'] {
-    mounttab { '/boot':
-      ensure  => present,
+    mount { '/boot':
+      ensure  => mounted,
       device  => '/dev/mmcblk0p1',
       atboot  => true,
       fstype  => 'vfat',
@@ -26,9 +26,5 @@ class disks::systemd () {
     disks::lv { $name:
       * => $options,
     }
-  }
-
-  resources { 'mounttab':
-    purge => true,
   }
 }

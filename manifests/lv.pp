@@ -10,7 +10,7 @@ define disks::lv (
   String $size,
   String $vg,
   String $fstype = 'ext4',
-  Array[String] $fsoptions = ['rw', 'relatime'],
+  String $fsoptions = 'rw,relatime',
   String $mount = undef,
   String $lvname = $title,
 ) {
@@ -23,8 +23,8 @@ define disks::lv (
   }
 
   if $mount {
-    mounttab { $mount:
-      ensure  => present,
+    mount { $mount:
+      ensure  => mounted,
       device  => "/dev/${vg}/${lvname}",
       atboot  => true,
       fstype  => $fstype,
@@ -32,7 +32,5 @@ define disks::lv (
       dump    => '0',
       pass    => '2',
     }
-
-    mountpoint { $mount: }
   }
 }
