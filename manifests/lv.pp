@@ -28,7 +28,7 @@ define disks::lv (
     }
 
     -> mounttab { $mount:
-      ensure  => mounted,
+      ensure  => present,
       device  => "/dev/${vg}/${lvname}",
       atboot  => true,
       fstype  => $fstype,
@@ -36,5 +36,7 @@ define disks::lv (
       dump    => '0',
       pass    => '2',
     }
+
+    -> mountpoint { $mount: }
   }
 }
