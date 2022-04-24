@@ -18,13 +18,13 @@ define disks::lv (
   $lv_path = "/dev/${vg}/${lvname}"
 
   exec { "Create LV ${lv_path}":
-    command => "/usr/bin/lvcreate -y -L '${size}' -n '${lvname}' '${vg}'":
+    command => "/usr/bin/lvcreate -y -L '${size}' -n '${lvname}' '${vg}'",
     creates => $lv_path,
   }
 
   if $fstype {
     exec { "Create FS on LV ${lv_path}":
-      command => "/usr/bin/mkfs -t '${fstype}' '${lv_path}'":
+      command => "/usr/bin/mkfs -t '${fstype}' '${lv_path}'",
       onlyif  => "/usr/bin/file -sLb '${lv_path}' | grep '^data$'",
       require => Exec["Create LV ${lv_path}"],
     }
