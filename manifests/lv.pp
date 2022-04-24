@@ -14,7 +14,7 @@ define disks::lv (
   Optional[String] $mount = undef,
   String $lvname = $title,
 ) {
-  exec { "/usr/bin/lvcreate -L '${size}' -n '${lvname}' '${vg}'":
+  exec { "/usr/bin/lvcreate -y -L '${size}' -n '${lvname}' '${vg}'":
     creates => "/dev/${vg}/${lvname}",
   }
 
