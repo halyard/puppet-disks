@@ -10,7 +10,7 @@ class disks::systemd () {
     pass    => '1',
   }
 
-  if $facts['partitions']['/dev/mmcblk0p1'] {
+  if $facts.dig('partitions', '/dev/mmcblk0p1') {
     mount { '/boot':
       ensure  => mounted,
       device  => '/dev/mmcblk0p1',
