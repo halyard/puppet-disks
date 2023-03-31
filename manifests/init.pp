@@ -7,6 +7,7 @@ class disks (
   case $facts['os']['family'] {
     'Archlinux': { include disks::systemd }
     'Arch': { include disks::systemd }
+    'Debian': { include disks::systemd }
     default: { fail("Hostname module does not support ${facts['os']['family']}") }
   }
 }
